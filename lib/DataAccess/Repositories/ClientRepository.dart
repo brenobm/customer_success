@@ -37,6 +37,21 @@ class ClientRepository {
     return null;
   }
 
+  Future<List<ClientModel>> getAll() async {
+    ClientModel tmp = new ClientModel();
+    List<ClientModel> clients = new List<ClientModel>();
+
+    List<Map> maps = await context.database.query(
+      tmp.tableName, 
+      columns: tmp.fieldNames);
+
+    for (int i = 0; i < maps.length; i++) {
+      clients.add(new ClientModel.fromMap(maps[i]));
+    }
+
+    return clients;
+  }
+
   Future<int> delete(int id) async {
     ClientModel tmp = new ClientModel();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Views/ClientCadastrePage.dart';
+import 'Views/ClientListPage.dart';
 
 void main() => runApp(new CustomerSuccessApp());
 
@@ -11,6 +12,7 @@ class CustomerSuccessApp extends StatelessWidget {
       home: new HomePage(),
       routes: <String, WidgetBuilder> {
         '/clientCadastre': (BuildContext context) => new ClientCadastrePage(),
+        '/clientList': (BuildContext context) => new ClientListPage(),
       },
     );
   } 
@@ -36,6 +38,12 @@ class StatefulWidgetState extends State<StatefulWidget>{
               child: new Text('Cadastro de Clientes'),
               onPressed: () {
                 Navigator.of(context).pushNamed('/clientCadastre');
+              },
+            ),
+            new FlatButton(
+              child: new Text('Listar Clientes'),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/clientList');
               },
             ),
           ],
