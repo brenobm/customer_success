@@ -13,8 +13,17 @@ class ClientListPage extends StatefulWidget {
 class ClientListPageState extends State<ClientListPage>{
 
   List<ClientModel> _clients; 
+  bool _loading = true;
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  ClientListPageState() {
+    _initialize().then((v) {
+      setState(() {
+      _loading = false;
+      });
+    });
+  }
 
   Future _initialize() async {
     ClientRepository repository = new ClientRepository();
@@ -43,26 +52,26 @@ class ClientListPageState extends State<ClientListPage>{
             ),
           ),
           new Card(
-            child: await _buildClientList(),
+            child: new ListView (
+              children: _buildClientList(),
+            ),
           )
         ],
       ),
     );
   }
 
-  Future<Widget> _buildClientList() async {
-    return new ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: await (context, i) async {
-        if (_clients == null) {
-          await _initialize();
-        }
-
-        return new _ClientListItem(_clients[i]);
-      },
-    );
-
-    return _clients.map((contact) => new _ClientListItem(contact))
+  List<_ClientListItem> _buildClientList() {
+    // return new ListView.builder(
+    //   padding: const EdgeInsets.all(16.0),
+    //   itemBuilder: (context, i) {
+    //     if (_clients == null || _clients.length <= i)
+    //       return null;
+    //     return new _ClientListItem(_clients[i]);
+    //   },
+    //   itemCount: _clients?.length ?? 0,
+    // );
+    return _loading ? [] : _clients.map((contact) => new _ClientListItem(contact))
                     .toList();
   }
 
